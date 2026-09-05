@@ -11,7 +11,12 @@ def _default_database_url() -> str:
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=("../.env", ".env"), extra="ignore")
+    # Empty Vercel env rows become "" and must be ignored (esp. SMTP_PORT).
+    model_config = SettingsConfigDict(
+        env_file=("../.env", ".env"),
+        extra="ignore",
+        env_ignore_empty=True,
+    )
 
     hunar_api_key: str = ""
     hunar_api_base: str = "https://api.voice.hunar.ai"
