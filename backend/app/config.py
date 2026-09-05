@@ -1,4 +1,13 @@
+import os
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+def _default_database_url() -> str:
+    # Vercel serverless filesystem is read-only except /tmp
+    if os.getenv("VERCEL"):
+        return "sqlite:////tmp/frontline.db"
+    return "sqlite:///./frontline.db"
 
 
 class Settings(BaseSettings):
@@ -18,7 +27,7 @@ class Settings(BaseSettings):
     smtp_password: str = ""
     smtp_from: str = ""
     frontend_origin: str = "http://localhost:3000"
-    database_url: str = "sqlite:///./frontline.db"
+    database_url: str = _default_database_url()
 
 
 settings = Settings()
