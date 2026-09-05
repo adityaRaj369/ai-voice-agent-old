@@ -1,4 +1,16 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8001";
+function getApiBase(): string {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, "");
+  }
+  // Same-origin on Vercel Services (frontend + backend one URL)
+  if (process.env.VERCEL) {
+    return "";
+  }
+  return "http://localhost:8001";
+}
+
+const API_BASE = getApiBase();
+
 
 export class ApiError extends Error {
   status: number;
