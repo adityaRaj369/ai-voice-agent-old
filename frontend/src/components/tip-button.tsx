@@ -10,9 +10,15 @@ type TipButtonProps = React.ComponentProps<typeof Button> & {
 
 /** Light, accessible hover tip without depending on portal timing. */
 export function TipButton({ tip, className, children, ...props }: TipButtonProps) {
+  const classNameStr = typeof className === "string" ? className : undefined;
   return (
-    <span className={cn("group/tip relative inline-flex max-w-full", className?.includes("w-full") && "w-full")}>
-      <Button className={cn("relative", className)} title={tip} aria-label={tip} {...props}>
+    <span
+      className={cn(
+        "group/tip relative inline-flex max-w-full",
+        classNameStr?.includes("w-full") && "w-full",
+      )}
+    >
+      <Button className={cn("relative", classNameStr)} title={tip} aria-label={tip} {...props}>
         {children}
       </Button>
       <span
